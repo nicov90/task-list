@@ -1,0 +1,9 @@
+.add-btn, .remove-btn{
+    cursor: pointer;
+    width: 34px;
+    padding: 4px;
+}
+.add-btn:hover, .remove-btn:hover{
+    background-color: rgb(212, 212, 212);
+    border-radius: 50%;
+}

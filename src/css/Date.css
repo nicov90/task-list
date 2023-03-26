@@ -1,0 +1,12 @@
+.date{
+    color: rgba(61, 61, 61, 0.75);
+    font-size: 1.1rem;
+    padding-top: 2px;
+    user-select: none;
+}
+#task-date{
+    color: rgb(39, 39, 39);
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}

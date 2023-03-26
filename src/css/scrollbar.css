@@ -1,0 +1,29 @@
+.task-title:hover,
+.popup-input:hover {
+  overflow-y: auto;
+}
+.tasklist-container::-webkit-scrollbar,
+.task-title::-webkit-scrollbar,
+.popup-input::-webkit-scrollbar {
+  width: 2px;
+}
+.tasklist-container::-webkit-scrollbar-track,
+.task-title::-webkit-scrollbar-track,
+.popup-input::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.tasklist-container::-webkit-scrollbar-thumb,
+.task-title::-webkit-scrollbar-thumb,
+.popup-input::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 10px;
+}
+.task-title:hover::-webkit-scrollbar-thumb,
+.popup-input:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+.task-title::-webkit-scrollbar-thumb:hover,
+.popup-input::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
