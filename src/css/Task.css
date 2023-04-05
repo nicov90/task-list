@@ -29,7 +29,6 @@
     background-color: transparent;
 }
 .task-edit{
-    display: none;
     height: 24px;
     cursor: pointer;
     filter: contrast(0.25);

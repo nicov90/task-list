@@ -1,88 +1,64 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import ExitIcon from "../assets/icons/exit.svg";
 import "../css/popup.css";
 import SaveBtn from "../assets/icons/saveBtn.svg";
 import "../css/scrollbar.css";
+import { GlobalContext } from "../App";
+
 import { v4 as uuidv4 } from "uuid";
 
-function PopUp({ popUpType, taskId, taskText, taskDate, updateTaskText, saveTasksArray, editTasksArray}) {
-  const dateOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
-  const currentDate = new Date()
-    .toLocaleDateString("en-GB", dateOptions)
-    .split("/")
-    .reverse()
-    .join("-");
-
+function PopUp({ popUpType }) {
   const isEditSection = popUpType === "edit-popup";
-  const [popUpTaskText, setPopUpTaskText] = useState("");
+  //* Context
+  const {currentDate, popUpList, tasksArrayState, popUpTaskTextState, popUpDateState, taskIdState} = useContext(GlobalContext);
+  //* Rendering states
+  const {popUpOptions, togglePopUp, popUpIsClosingState} = popUpList;
+  const {popUpIsClosing, setPopUpIsClosing} = popUpIsClosingState;
+  
+  //* Task states
+  const {tasksArray, setTasksArray} = tasksArrayState;
+  const {popUpTaskText, setPopUpTaskText} = popUpTaskTextState;
+  const {popUpDate, setPopUpDate} = popUpDateState;
+  const {setTaskId} = taskIdState;
 
-  const closePopUp = () => {
-    const popUp = document.getElementById(popUpType);
-    const overlay = document.querySelector(".overlay");
+  //* Task actions
+  const taskActions = {
+    save: ()=>{
+      const updatedTasksArray = [...tasksArray];
 
-    //* Ejecuta la animación de cierre
-    popUp.classList.add("popup-close");
-    //* Oculta capa oscura
-    overlay.style.visibility = "hidden";
+      const taskId = uuidv4();
+      setTaskId(taskId);
 
-    setTimeout(() => {
-      popUp.style.display = "none";
-      //* Quita el estado de animación de cierre
-      popUp.classList.remove("popup-close");
-    }, 150);
-  };
-
-  const handleTextValue = (event) => {
-    let currentTaskText = event.target.value;
-
-    setPopUpTaskText(currentTaskText);
-    updateTaskText(currentTaskText);
-  };
-
-  const saveTask = () => {
-    if (isEditSection) {
-      // EDITAR
-      const popUp = document.getElementById(popUpType);
-      const popUpDate = popUp.querySelector(".popup-date").value;
-
-      const tasksArray = JSON.parse(localStorage.getItem("tasks"));
-      const taskElementIndex = tasksArray.findIndex(
-        storageTask => storageTask.id === taskId
-      );
-      //* Editar tarea
-      if (popUpTaskText !== "" && popUpDate !== "") {
-        let taskElementToEdit = tasksArray[taskElementIndex];
-        taskElementToEdit.title = popUpTaskText;
-        taskElementToEdit.date = popUpDate;
-
-        //* Reemplazar tarea en el tasksArray
-        tasksArray[taskElementIndex] = taskElementToEdit;
-
-        //* Subir el tasksArray actualizado al localStorage
-        editTasksArray(tasksArray);
-      } else {
-        alert("No puede haber un campo vacío");
+      const newTask = {
+        text: popUpTaskText,
+        date: popUpDate,
+        id: taskId,
       }
-    } else {
-      // GUARDAR
-      const popUp = document.getElementById(popUpType);
-      const popUpDate = popUp.querySelector(".popup-date").value;
-
-      if (popUpTaskText !== "" && popUpDate !== "") {
-        let newTask = {
-          title: popUpTaskText,
-          date: popUpDate,
-          id: uuidv4(),
-        };
-        saveTasksArray(newTask);
-      } else {
-        alert("No puede haber un campo vacío");
-      }
+      updatedTasksArray.push(newTask);
+      
+      setTasksArray(updatedTasksArray);
+      
+      console.log("guardado");
+      closePopUp();
+    },
+    edit: ()=>{
+      console.log("editado");
     }
-  };
+  }
+
+  //* PopUp UI -> Closing
+  const closePopUp = () => {
+    setPopUpIsClosing(true);
+    const popUpType = isEditSection ? popUpOptions.EDIT : popUpOptions.ADD;
+    
+    setTimeout(() => {
+      togglePopUp(popUpType);
+      setPopUpIsClosing(false);
+    }, 150);
+  }
 
   return (
-    <div className="popup" id={popUpType}>
+    <div className={`popup ${popUpIsClosing ? 'popup-close' : '' }`} id={popUpType}>
       <div className="exit-container">
         <img
           className="exit-btn"
@@ -98,8 +74,7 @@ function PopUp({ popUpType, taskId, taskText, taskDate, updateTaskText, saveTask
         <textarea
           className="popup-input"
           placeholder="Add text..."
-          defaultValue={taskText}
-          onChange={handleTextValue}
+          onChange={(e)=> setPopUpTaskText(e.target.value)}
         ></textarea>
         <div className="popup-date-container">
           <label htmlFor="date">
@@ -108,14 +83,20 @@ function PopUp({ popUpType, taskId, taskText, taskDate, updateTaskText, saveTask
               className="popup-date"
               type="date"
               name="date"
-              defaultValue={isEditSection ? taskDate : currentDate}
+              defaultValue={isEditSection ? '1990-12-27' : currentDate}
+              onChange={(e)=> setPopUpDate(e.target.value)}
             ></input>
             <div style={{ width: "40px" }}></div>
           </label>
         </div>
-        <button className="popup-save-container" onClick={saveTask}>
+        <button className="popup-save-container">
           <p>Done</p>
-          <img className="popup-save" src={SaveBtn} alt=""></img>
+          <img 
+            className="popup-save" 
+            src={SaveBtn} 
+            alt=""
+            onClick={isEditSection ? taskActions.edit : taskActions.save}
+          ></img>
         </button>
       </div>
     </div>

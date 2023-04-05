@@ -1,14 +1,16 @@
 .overlay{
-  visibility: hidden;
+  /*visibility: hidden;*/
   position: fixed;
   transform: translate(-50%,-30px);
   top: 0;
   left: 50%;
   height: calc(100% + 55px);
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 .popup{
+  display: flex;
   margin: auto;
   position: fixed;
   top: 50vh;
@@ -62,12 +64,12 @@
     opacity: 0;
   }
 }
-#edit-popup {
+/*#edit-popup {
   display: none;
 }
 #add-popup{
   display: none;
-}
+}*/
 .popup-title-container {
   display: flex;
   justify-content: center;

@@ -1,101 +1,119 @@
+import React, { createContext, useState } from "react";
 import "./App.css";
 import "./css/scrollbar.css";
-import Date from "./components/Date.jsx";
-import Add from "./components/Add";
+import AddUI from "./components/AddUI";
 import Remove from "./components/Remove";
+import { MainUI } from "./components/MainUI";
+import { MainTitle } from "./components/MainTitle";
+import { TaskManager } from "./components/TaskManager";
+import AllTasks from "./components/AllTasks";
+import Overlay from "./components/Overlay";
 import Task from "./components/Task";
-import MenuIcon from "./assets/icons/menu.svg";
-import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import PopUp from "./components/PopUp";
+import useLocalStorage from "./js/useLocalStorage";
+
+export const GlobalContext = createContext();
 
 function App() {
-  //* Inicialización de array de tasks para el localStorage
-  const task = {
-    title: "",
-    date: "",
-    id: "0"
-  };
-  const [tasksArray, setTasksArray] = useState([task]);
-
-  //* Lista de tareas que se representa en el DOM
-  const [taskList, setTaskList] = useState([]);
+  //* Get current date
+  const dateOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
+  const currentDate = new Date()
+    .toLocaleDateString("en-GB", dateOptions)
+    .split("/")
+    .reverse()
+    .join("-");
   
-  const saveTasksArray = (newTask) =>{
-    let newTasksArray = [newTask, ...tasksArray];
-
-    //* Filtra por fechas mas recientes
-    newTasksArray.sort((a,b)=> (a.date > b.date ? 1 : -1));
-
-    setTasksArray(newTasksArray);
-
-    localStorage.setItem("tasks", JSON.stringify(newTasksArray));
+  //* Rendering states
+  const [showAddPopUp, setShowAddPopUp] = useState(false);
+  const [showEditPopUp, setShowEditPopUp] = useState(false);
+  const [popUpIsClosing, setPopUpIsClosing] = useState(false);
+  
+  //* Task states
+  const [popUpTaskText, setPopUpTaskText]= useState('');
+  const [popUpDate, setPopUpDate]= useState(currentDate);
+  const [taskId,setTaskId] = useState(null);
+  const popUpTaskTextState = {
+    popUpTaskText,
+    setPopUpTaskText
   }
-  const editTasksArray = (editedTaskArray) =>{
-    setTasksArray(editedTaskArray);
-
-    localStorage.setItem("tasks", JSON.stringify(editedTaskArray));
+  const popUpDateState = {
+    popUpDate,
+    setPopUpDate
+  }
+  const taskIdState = {
+    taskId,
+    setTaskId
   }
 
-  const autoSetTaskList = (tasks) => {
-    setTaskList(tasks);
-  };
+  //* Local storage states
+  const [tasksArray, setTasksArray] = useLocalStorage('tasks',[]);
+  const tasksArrayState = {
+    tasksArray,
+    setTasksArray
+  }
 
-  useEffect(() => {
-    //* Obtiene el array de tasks. Si no existe se crea un array de tasks nuevo.
-    const tasks =
-      JSON.parse(localStorage.getItem("tasks")) ||
-      localStorage.setItem("tasks", JSON.stringify(tasksArray));
+  const popUpList = {
+    popUpOptions: {
+      ADD : 'ADD',
+      EDIT : 'EDIT'
+    },
+    togglePopUp: (popUpType) =>{
+      switch (popUpType) {
+        case 'ADD': setShowAddPopUp(!showAddPopUp)
+          break;
+        case 'EDIT': setShowEditPopUp(!showEditPopUp)
+          break;
     
-    autoSetTaskList(tasks);
-  }, [tasksArray]);
+        default:
+          break;
+      }
+    },
+    popUpIsClosingState: {
+      popUpIsClosing,
+      setPopUpIsClosing
+    }
+  }
 
   return (
     <div className="App">
-      <section className="tasklist-container">
-        <div className="title-container">
-          <h1 className="title">Task list</h1>
-          <Date id="currentDate" />
-        </div>
-        <div className="taskmanager-container">
-          <img src={MenuIcon} alt="Menu"></img>
-          <div>
-            <Remove />
-            <Add />
-          </div>
-        </div>
-        <div className="all-tasks">
-          {taskList.map((task) => {
-            //* Debe existir al menos un task para poder abrir el add pop-up
-            //* por lo que traslado el task vacio a otro lugar para que no se vea
-            let emptyTaskConfig = {};
-            let emptyTask = false;
-            if (task.title === '' || task.date === '') {
-              emptyTaskConfig = {
-                position: "absolute",
-                top: "0",
-                left: "0",
-                opacity: "0",
-              };
-              emptyTask = true;
-            }
+      <GlobalContext.Provider 
+        value={ {currentDate, popUpList, tasksArrayState, popUpTaskTextState, popUpDateState, taskIdState} }>
+        <MainUI>
+          <MainTitle />
 
-            return (
-              <Task
-                key={uuidv4()}
-                taskId={task.id}
-                taskInput={task.title}
-                taskDate={task.date}
-                emptyTask={emptyTask}
-                emptyTaskConfig={emptyTaskConfig}
-                saveTasksArray={saveTasksArray}
-                editTasksArray={editTasksArray}
-              />
-            );
-          })}
-        </div>
-      </section>
+          <TaskManager>
+            <Remove />
+            <AddUI />
+          </TaskManager>
+
+          <AllTasks>
+            {tasksArray.map(()=>(
+              <Task key={taskId} id={taskId} text={popUpTaskText} date={popUpDate} ></Task>
+            ))}
+          </AllTasks>
+        </MainUI>
+        {
+          showAddPopUp && (
+            <>
+              <Overlay />
+              <PopUp popUpType="add-popup" />
+            </>
+          )
+        }
+        {
+          showEditPopUp && (
+            <>
+              <Overlay />
+              <PopUp popUpType="edit-popup" />
+            </>
+          )
+        }
+      </GlobalContext.Provider>
     </div>
   );
 }
 
 export default App;
+
+/* Filtra por fechas mas recientes
+newTasksArray.sort((a,b)=> (a.date > b.date ? 1 : -1));*/
