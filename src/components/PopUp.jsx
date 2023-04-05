@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import ExitIcon from "../assets/icons/exit.svg";
 import "../css/popup.css";
 import SaveBtn from "../assets/icons/saveBtn.svg";
@@ -10,16 +10,15 @@ import { v4 as uuidv4 } from "uuid";
 function PopUp({ popUpType }) {
   const isEditSection = popUpType === "edit-popup";
   //* Context
-  const {currentDate, popUpList, tasksArrayState, popUpTaskTextState, popUpDateState, taskIdState} = useContext(GlobalContext);
+  const {currentDate, popUpList, tasksArrayState} = useContext(GlobalContext);
   //* Rendering states
   const {popUpOptions, togglePopUp, popUpIsClosingState} = popUpList;
   const {popUpIsClosing, setPopUpIsClosing} = popUpIsClosingState;
   
   //* Task states
   const {tasksArray, setTasksArray} = tasksArrayState;
-  const {popUpTaskText, setPopUpTaskText} = popUpTaskTextState;
-  const {popUpDate, setPopUpDate} = popUpDateState;
-  const {setTaskId} = taskIdState;
+  const [popUpTaskText, setPopUpTaskText]= useState('');
+  const [popUpDate, setPopUpDate]= useState(currentDate);
 
   //* Task actions
   const taskActions = {
@@ -27,7 +26,6 @@ function PopUp({ popUpType }) {
       const updatedTasksArray = [...tasksArray];
 
       const taskId = uuidv4();
-      setTaskId(taskId);
 
       const newTask = {
         text: popUpTaskText,

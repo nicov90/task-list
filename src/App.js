@@ -27,23 +27,6 @@ function App() {
   const [showAddPopUp, setShowAddPopUp] = useState(false);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [popUpIsClosing, setPopUpIsClosing] = useState(false);
-  
-  //* Task states
-  const [popUpTaskText, setPopUpTaskText]= useState('');
-  const [popUpDate, setPopUpDate]= useState(currentDate);
-  const [taskId,setTaskId] = useState(null);
-  const popUpTaskTextState = {
-    popUpTaskText,
-    setPopUpTaskText
-  }
-  const popUpDateState = {
-    popUpDate,
-    setPopUpDate
-  }
-  const taskIdState = {
-    taskId,
-    setTaskId
-  }
 
   //* Local storage states
   const [tasksArray, setTasksArray] = useLocalStorage('tasks',[]);
@@ -77,7 +60,7 @@ function App() {
   return (
     <div className="App">
       <GlobalContext.Provider 
-        value={ {currentDate, popUpList, tasksArrayState, popUpTaskTextState, popUpDateState, taskIdState} }>
+        value={ {currentDate, popUpList, tasksArrayState} }>
         <MainUI>
           <MainTitle />
 
@@ -87,8 +70,8 @@ function App() {
           </TaskManager>
 
           <AllTasks>
-            {tasksArray.map(()=>(
-              <Task key={taskId} id={taskId} text={popUpTaskText} date={popUpDate} ></Task>
+            {tasksArray.map((task)=>(
+              <Task key={task.id} id={task.id} ></Task>
             ))}
           </AllTasks>
         </MainUI>

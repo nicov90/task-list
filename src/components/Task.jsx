@@ -6,22 +6,30 @@ import Date from "../components/Date";
 import { GlobalContext } from "../App";
 import { useContext } from "react";
 
-function Task({ id, text, date}) {
-  const { popUpList } = useContext(GlobalContext);
+function Task({ id }) {
+  const { popUpList, tasksArrayState } = useContext(GlobalContext);
+  const { tasksArray } = tasksArrayState;
   const { popUpOptions, togglePopUp } = popUpList;
   
   const [isTaskHovered, setIsTaskHovered] = useState(false);
 
+  const currentTask = (tasksArray.find((task)=>{
+    if(id === task.id){
+      return task;
+    }
+    return null;
+  }))
+
   return (
     <div>
-      <Date id="task-date" taskDate={date} />
+      <Date id="task-date" taskDate={currentTask ? currentTask.date : ''} />
       <div 
         className="task-container"
         onMouseEnter={()=> setIsTaskHovered(true)}
         onMouseLeave={()=> setIsTaskHovered(false)}
       >
         <div className="task-title">
-          <p className="task-input">{text}</p>
+          <p className="task-input">{currentTask ? currentTask.text : <strong><i>(Hubo un error)</i></strong>}</p>
         </div>
         {isTaskHovered && (
           <img
