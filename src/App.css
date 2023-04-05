@@ -1,4 +1,4 @@
-.App{
+.App {
   width: 100%;
   min-height: 100vh;
   max-width: 1200px;
@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
 }
-.tasklist-container{
+.tasklist-container {
   width: 100%;
   max-width: 550px;
   border-radius: 30px;
@@ -16,17 +16,18 @@
   backdrop-filter: blur(15px);
   position: relative;
 }
-.title-container{
+.title-container {
   width: 90%;
   padding: 50px 40px 25px 38px;
 }
-.title{
+.title {
   user-select: none;
 }
-.taskmanager-container, .all-tasks{
+.taskmanager-container,
+.all-tasks {
   margin: 0 auto;
 }
-.taskmanager-container{
+.taskmanager-container {
   width: 94%;
   display: flex;
   justify-content: space-between;
@@ -36,21 +37,50 @@
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 15px;
   box-shadow: 0 0 5px rgb(235, 234, 234);
+  position: relative;
 }
-.taskmanager-container > p{
+.taskmanager-container > p {
   font-weight: 600;
   user-select: none;
 }
-.taskmanager-container > div{
+.taskmanager-container > div {
   display: flex;
   align-items: center;
 }
-.all-tasks{
+.all-tasks {
   width: 88%;
 }
+.no-task-msg-container {
+  margin-top: 22px;
+  display: flex;
+  justify-content: right;
+  text-align: center;
+  transform: translateX(25px);
+}
+.no-task-msg {
+  display: inline-block;
+  color: rgba(32, 24, 24, 0.7);
+  font-family: Helvetica, sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  user-select: none;
+  width: 100px;
+  animation: moveArrow 0.8s infinite alternate-reverse;
+}
+.arrowup-img {
+  position: absolute;
+  top: 43px;
+  right: 27px;
+  width: 32px;
+  animation: moveArrow 0.8s infinite alternate-reverse;
+}
+@keyframes moveArrow {
+  from{ transform: translateY(0px);}
+  to{ transform: translateY(6px); }
+}
 
-@media screen and (max-width: 940px){
-  .taskmanager-container{
+@media screen and (max-width: 940px) {
+  .taskmanager-container {
     width: 96%;
   }
 }

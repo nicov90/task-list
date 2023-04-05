@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import "./App.css";
 import "./css/scrollbar.css";
+import arrowUp from './assets/arrowup.png';
 import AddUI from "./components/AddUI";
 import Remove from "./components/Remove";
 import { MainUI } from "./components/MainUI";
@@ -56,6 +57,10 @@ function App() {
       setPopUpIsClosing
     }
   }
+  const filterTasks = () =>{
+    tasksArray.sort((a,b)=> (a.date > b.date ? 1 : -1));
+  }
+  filterTasks();
 
   return (
     <div className="App">
@@ -67,9 +72,17 @@ function App() {
           <TaskManager>
             <Remove />
             <AddUI />
+            {tasksArray.length == 0 && (
+              <img className="arrowup-img" src={arrowUp}></img>
+            )}
           </TaskManager>
 
           <AllTasks>
+            {tasksArray.length == 0 && (
+              <div className="no-task-msg-container">
+                <p className="no-task-msg">Let's add a new task!</p>
+              </div>
+            )}
             {tasksArray.map((task)=>(
               <Task key={task.id} id={task.id} ></Task>
             ))}
@@ -78,7 +91,7 @@ function App() {
         {
           showAddPopUp && (
             <>
-              <Overlay />
+              <Overlay setShowPopUp={setShowAddPopUp} />
               <PopUp popUpType="add-popup" />
             </>
           )
@@ -86,7 +99,7 @@ function App() {
         {
           showEditPopUp && (
             <>
-              <Overlay />
+              <Overlay setShowPopUp={setShowEditPopUp}/>
               <PopUp popUpType="edit-popup" />
             </>
           )
@@ -99,4 +112,4 @@ function App() {
 export default App;
 
 /* Filtra por fechas mas recientes
-newTasksArray.sort((a,b)=> (a.date > b.date ? 1 : -1));*/
+tasksArray.sort((a,b)=> (a.date > b.date ? 1 : -1));*/
