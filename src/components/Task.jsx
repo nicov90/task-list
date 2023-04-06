@@ -7,8 +7,9 @@ import { GlobalContext } from "../App";
 import { useContext } from "react";
 
 function Task({ id }) {
-  const { popUpList, tasksArrayState } = useContext(GlobalContext);
+  const { popUpList, tasksArrayState, selectedTaskIdState} = useContext(GlobalContext);
   const { tasksArray } = tasksArrayState;
+  const { setSelectedTaskId } = selectedTaskIdState;
   const { popUpOptions, togglePopUp } = popUpList;
   
   const [isTaskHovered, setIsTaskHovered] = useState(false);
@@ -37,6 +38,7 @@ function Task({ id }) {
             src={editIcon}
             alt="Edit icon"
             onClick={() => {
+              setSelectedTaskId(id);
               togglePopUp(popUpOptions.EDIT);
             }}
           ></img>

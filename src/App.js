@@ -29,6 +29,13 @@ function App() {
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [popUpIsClosing, setPopUpIsClosing] = useState(false);
 
+  //* Task ID for the Edit Pop-up
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const selectedTaskIdState = {
+    selectedTaskId,
+    setSelectedTaskId
+  }
+
   //* Local storage states
   const [tasksArray, setTasksArray] = useLocalStorage('tasks',[]);
   const tasksArrayState = {
@@ -65,20 +72,20 @@ function App() {
   return (
     <div className="App">
       <GlobalContext.Provider 
-        value={ {currentDate, popUpList, tasksArrayState} }>
+        value={ {currentDate, popUpList, tasksArrayState, selectedTaskIdState} }>
         <MainUI>
           <MainTitle />
 
           <TaskManager>
             <Remove />
             <AddUI />
-            {tasksArray.length == 0 && (
-              <img className="arrowup-img" src={arrowUp}></img>
+            {tasksArray.length === 0 && (
+              <img className="arrowup-img" src={arrowUp} alt=""></img>
             )}
           </TaskManager>
 
           <AllTasks>
-            {tasksArray.length == 0 && (
+            {tasksArray.length === 0 && (
               <div className="no-task-msg-container">
                 <p className="no-task-msg">Let's add a new task!</p>
               </div>
