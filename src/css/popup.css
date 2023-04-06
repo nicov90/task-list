@@ -77,6 +77,7 @@
 }
 .popup-title {
   font-size: 23px;
+  font-weight: 700;
   user-select: none;
 }
 .popup-input {
@@ -92,7 +93,7 @@
   line-break: anywhere;
 }
 .popup-input:focus-visible{
-  outline: 1px solid rgb(73, 73, 73);
+  outline: none;
 }
 .popup-date-container {
   width: 100%;
@@ -104,12 +105,14 @@
   gap: 10px;
 }
 .popup-date-container > label > p{
-  font-weight: 600;
+  font-weight: 500;
 }
 .popup-date{
+  font-size: 14px;
+  font-weight: 500;
   background-color: rgba(255, 255, 255, 0.45);
   box-shadow: 0 0 5px rgb(158, 158, 158);
-  padding: 2px 5px;
+  padding: 2px 8px;
   cursor: pointer;
   border: none;
 }
@@ -117,18 +120,19 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 .popup-date:focus-visible{
-  outline: 1px solid black;
+  outline: none;
 }
 .popup-save-container {
-  padding: 3px 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px 10px;
+  background-color: white;
+  box-shadow: 0 0 5px rgb(158, 158, 158);
   cursor: pointer;
   font: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  outline: 2px solid rgb(65, 65, 65);
+  outline: none;
 }
 .popup-save-container:hover{
   background-color: rgba(255, 255, 255, 0.74);
@@ -136,7 +140,7 @@
 .popup-save-container > p{
   margin-right: 3px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 .popup-save {
   width: 24px;

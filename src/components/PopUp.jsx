@@ -10,11 +10,21 @@ import { v4 as uuidv4 } from "uuid";
 function PopUp({ popUpType }) {
   const isEditSection = popUpType === "edit-popup";
   //* Context
-  const { currentDate, popUpList, tasksArrayState, selectedTaskIdState } =
-    useContext(GlobalContext);
+  const {
+    currentDate,
+    popUpList,
+    tasksArrayState,
+    selectedTaskIdState,
+    errorStatusState,
+    successStatusState,
+    setErrorMessage
+  } = useContext(GlobalContext);
+  
   //* Rendering states
   const { popUpOptions, togglePopUp, popUpIsClosingState } = popUpList;
   const { popUpIsClosing, setPopUpIsClosing } = popUpIsClosingState;
+  const { setErrorStatus } = errorStatusState;
+  const { setSuccessStatus } = successStatusState;
 
   //* Task states
   const { tasksArray, setTasksArray } = tasksArrayState;
@@ -38,6 +48,7 @@ function PopUp({ popUpType }) {
   //* Task actions
   const taskActions = {
     save: () => {
+      console.log("Save ejecutado");
       if (popUpTaskText !== "" && popUpDate !== null) {
         if (isDateValid()) {
           const updatedTasksArray = [...tasksArray];
@@ -52,17 +63,19 @@ function PopUp({ popUpType }) {
           updatedTasksArray.push(newTask);
 
           setTasksArray(updatedTasksArray);
-
-          console.log("Save ejecutado");
+          showSuccessMsg();
           closePopUp();
         } else {
-          alert("Date is not valid.");
+          setErrorMessage("date is not valid.");
+          showErrorMsg();
         }
       } else {
-        alert("Fields can't be empty.");
+        setErrorMessage("fields can't be empty.");
+        showErrorMsg();
       }
     },
     edit: () => {
+      console.log("Edit ejecutado");
       if (popUpTaskText !== "" && popUpDate !== null) {
         if (isDateValid()) {
           let updatedTasksArray = [...tasksArray];
@@ -81,14 +94,15 @@ function PopUp({ popUpType }) {
           updatedTasksArray.push(editedTask);
 
           setTasksArray(updatedTasksArray);
-
-          console.log("Edit ejecutado");
+          showSuccessMsg();
           closePopUp();
         } else {
-          alert("Date is not valid.");
+          setErrorMessage("date is not valid.");
+          showErrorMsg();
         }
       } else {
-        alert("Los campos no pueden estar vacios.");
+        setErrorMessage("fields can't be empty.");
+        showErrorMsg();
       }
     },
   };
@@ -101,6 +115,20 @@ function PopUp({ popUpType }) {
 
     return isDateValid;
   };
+
+  //* For rendering task action status
+  const showErrorMsg = () => {
+    setErrorStatus(true);
+    setTimeout(() => {
+      setErrorStatus(false);
+    }, 2500);
+  };
+  const showSuccessMsg = () =>{
+    setSuccessStatus(true);
+    setTimeout(() => {
+      setSuccessStatus(false);
+    }, 2500);
+  }
 
   //* PopUp UI -> Closing
   const closePopUp = () => {

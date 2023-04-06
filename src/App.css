@@ -6,6 +6,7 @@
   padding: 25px 25px;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .tasklist-container {
   width: 100%;
@@ -22,6 +23,7 @@
 }
 .title {
   user-select: none;
+  font-weight: 700;
 }
 .taskmanager-container,
 .all-tasks {
@@ -82,5 +84,42 @@
 @media screen and (max-width: 940px) {
   .taskmanager-container {
     width: 96%;
+  }
+}
+.alert{
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  animation: showMsg 2.9s alternate ease;
+}
+.alert.error{
+  background-color: rgba(248, 215, 218, 0.8);
+}
+.alert.success{
+  background-color: rgba(209, 231, 221, 0.7);
+}
+.error-msg{
+  font-weight: 500;
+}
+@keyframes showMsg {
+  0%{
+    opacity: 0.1;
+    top: 0px;
+  }
+  5%{
+    opacity: 1;
+    top: 25px;
+  }
+  80%{
+    opacity: 1;
+    top: 25px;
+  }
+  100%{
+    opacity: 0;
+    top: 0px;
   }
 }
