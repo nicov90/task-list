@@ -30,6 +30,13 @@ function App() {
   const [showAddPopUp, setShowAddPopUp] = useState(false);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [popUpIsClosing, setPopUpIsClosing] = useState(false);
+  const [deleteOptionsIsClosing, setDeleteOptionsIsClosing] = useState(false);
+
+  const [removeStatus, setRemoveStatus] = useState(false);
+  const removeStatusState = {
+    removeStatus,
+    setRemoveStatus,
+  };
 
   //* Error states
   const [errorStatus, setErrorStatus] = useState(false);
@@ -44,6 +51,7 @@ function App() {
     successStatus,
     setSuccessStatus,
   };
+  const [successMessage, setSuccessMessage] = useState("Success");
 
   //* Task ID for the Edit Pop-up
   const [selectedTaskId, setSelectedTaskId] = useState(null);
@@ -84,7 +92,7 @@ function App() {
     },
   };
 
-  //* Filter tasks
+  //* Filter tasks by recent dates
   const filterTasks = () => {
     tasksArray.sort((a, b) => (a.date > b.date ? 1 : -1));
   };
@@ -92,6 +100,56 @@ function App() {
 
   //* Extracts the unique dates from the tasksArray to render
   const uniqueDates = [...new Set(tasksArray.map((task) => task.date))];
+
+  //* Array of tasks to be deleted
+  const [selectedTasks, setSelectedTasks] = useState([]);
+  const selectedTasksState = {
+    selectedTasks,
+    setSelectedTasks,
+  };
+
+  const deleteSelectedTasks = () => {
+    if (selectedTasks.length !== 0) {
+      let newTasksArray = tasksArray;
+      selectedTasks.forEach((selectedTask) => {
+        newTasksArray = newTasksArray.filter((task) => task !== selectedTask);
+      });
+      setTasksArray(newTasksArray);
+      showSuccessMsg("Deleted successfully!");
+
+      //* Restarts to empty array
+      setSelectedTasks([]);
+      //* Finishes remove action
+      closeDeleteOptions();
+    } else {
+      showErrorMsg("No tasks selected!");
+    }
+  };
+
+  //* Error handlers
+  const showErrorMsg = (message) => {
+    setErrorMessage(message);
+    setErrorStatus(true);
+    setTimeout(() => {
+      setErrorStatus(false);
+    }, 2500);
+  };
+  const showSuccessMsg = (message) => {
+    setSuccessMessage(message);
+    setSuccessStatus(true);
+    setTimeout(() => {
+      setSuccessStatus(false);
+    }, 2500);
+  };
+
+  //* Delete options -> closing
+  const closeDeleteOptions = () => {
+    setDeleteOptionsIsClosing(true);
+    setTimeout(() => {
+      setRemoveStatus(false);
+      setDeleteOptionsIsClosing(false);
+    }, 100);
+  };
 
   return (
     <div className="App">
@@ -101,16 +159,18 @@ function App() {
           popUpList,
           tasksArrayState,
           selectedTaskIdState,
+          removeStatusState,
           errorStatusState,
           successStatusState,
-          setErrorMessage,
+          showErrorMsg,
+          showSuccessMsg,
         }}
       >
         <MainUI>
           <MainTitle />
 
           <TaskManager>
-            <Remove />
+            <Remove closeDeleteOptions={closeDeleteOptions} />
             <AddUI />
             {tasksArray.length === 0 && (
               <img className="arrowup-img" src={arrowUp} alt=""></img>
@@ -128,13 +188,39 @@ function App() {
                 <DateUI id="task-date" taskDate={date} key={date} />
                 {tasksArray.map((task) => {
                   if (task.date === date) {
-                    return <Task key={task.id} id={task.id}></Task>;
+                    return (
+                      <Task
+                        key={task.id}
+                        id={task.id}
+                        selectedTasksState={selectedTasksState}
+                      ></Task>
+                    );
                   }
                   return null;
                 })}
               </React.Fragment>
             ))}
           </AllTasks>
+          {removeStatus && (
+            <div
+              className={`delete-options-container ${
+                deleteOptionsIsClosing ? "close" : ""
+              }`}
+            >
+              <button
+                className="delete-options cancel"
+                onClick={() => closeDeleteOptions()}
+              >
+                Cancel
+              </button>
+              <button
+                className="delete-options delete"
+                onClick={() => deleteSelectedTasks()}
+              >
+                Delete
+              </button>
+            </div>
+          )}
           <footer className="footer">Nicolás Valdez @2023</footer>
         </MainUI>
         {showAddPopUp && (
@@ -158,7 +244,7 @@ function App() {
         )}
         {successStatus && (
           <Alert className="alert success" key="success" variant="success">
-            Saved successfully!
+            {successMessage}
           </Alert>
         )}
       </GlobalContext.Provider>

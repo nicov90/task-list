@@ -40,6 +40,17 @@
 .active{
     display: block;
 }
+.task-edit, .task-select-container{
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+.checkbox{
+    width: 29px;
+    height: 29px;
+    padding: 3px;
+    cursor: pointer;
+}
 @media screen and (max-width: 940px){
     .task-container{
         margin: 0 0 15px;

@@ -15,16 +15,13 @@ function PopUp({ popUpType }) {
     popUpList,
     tasksArrayState,
     selectedTaskIdState,
-    errorStatusState,
-    successStatusState,
-    setErrorMessage
+    showErrorMsg,
+    showSuccessMsg
   } = useContext(GlobalContext);
   
   //* Rendering states
   const { popUpOptions, togglePopUp, popUpIsClosingState } = popUpList;
   const { popUpIsClosing, setPopUpIsClosing } = popUpIsClosingState;
-  const { setErrorStatus } = errorStatusState;
-  const { setSuccessStatus } = successStatusState;
 
   //* Task states
   const { tasksArray, setTasksArray } = tasksArrayState;
@@ -63,15 +60,13 @@ function PopUp({ popUpType }) {
           updatedTasksArray.push(newTask);
 
           setTasksArray(updatedTasksArray);
-          showSuccessMsg();
+          showSuccessMsg("Saved successfully!");
           closePopUp();
         } else {
-          setErrorMessage("date is not valid.");
-          showErrorMsg();
+          showErrorMsg("date is not valid.");
         }
       } else {
-        setErrorMessage("fields can't be empty.");
-        showErrorMsg();
+        showErrorMsg("fields can't be empty.");
       }
     },
     edit: () => {
@@ -94,15 +89,13 @@ function PopUp({ popUpType }) {
           updatedTasksArray.push(editedTask);
 
           setTasksArray(updatedTasksArray);
-          showSuccessMsg();
+          showSuccessMsg("Saved successfully!");
           closePopUp();
         } else {
-          setErrorMessage("date is not valid.");
-          showErrorMsg();
+          showErrorMsg("date is not valid.");
         }
       } else {
-        setErrorMessage("fields can't be empty.");
-        showErrorMsg();
+        showErrorMsg("fields can't be empty.");
       }
     },
   };
@@ -115,20 +108,6 @@ function PopUp({ popUpType }) {
 
     return isDateValid;
   };
-
-  //* For rendering task action status
-  const showErrorMsg = () => {
-    setErrorStatus(true);
-    setTimeout(() => {
-      setErrorStatus(false);
-    }, 2500);
-  };
-  const showSuccessMsg = () =>{
-    setSuccessStatus(true);
-    setTimeout(() => {
-      setSuccessStatus(false);
-    }, 2500);
-  }
 
   //* PopUp UI -> Closing
   const closePopUp = () => {
