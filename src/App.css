@@ -195,8 +195,28 @@
   user-select: none;
   z-index: 1;
 }
+@media screen and (max-width: 768px) {
+  .delete-options{
+    padding: 10px 50px;
+  }
+}
 @media screen and (max-width: 425px) {
+  .title-container {
+    padding-left: 32px;
+  }
+  .delete-options-container{
+    gap: 15px;
+  }
+  .delete-options{
+    font-size: .9rem;
+    padding: 10px 33px;
+  }
   .footer{
     font-size: 12px;
+  }
+}
+@media screen and (max-width: 320px){
+  .delete-options{
+    padding: 10px 26px;
   }
 }
