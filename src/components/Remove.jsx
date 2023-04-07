@@ -7,7 +7,9 @@ function Remove(){
         <img 
             className='remove-btn'
             src={ RemoveIcon } 
-            alt='Delete icon'>
+            alt='Delete icon'
+            onClick={()=> alert("Función en construcción.")}
+        >
         </img>
     );
 }
