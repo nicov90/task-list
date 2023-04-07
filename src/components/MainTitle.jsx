@@ -1,11 +1,11 @@
 import React from 'react';
-import Date from './Date';
+import DateUI from './DateUI';
 
 const MainTitle = () => {
   return (
     <div className="title-container">
       <h1 className="title">Task list</h1>
-      <Date id="currentDate" />
+      <DateUI id="currentDate" />
     </div>
   );
 }

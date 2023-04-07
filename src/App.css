@@ -29,6 +29,9 @@
 .all-tasks {
   margin: 0 auto;
 }
+.all-tasks{
+  margin-bottom: 60px;
+}
 .taskmanager-container {
   width: 94%;
   display: flex;
@@ -53,6 +56,7 @@
   width: 88%;
 }
 .no-task-msg-container {
+  margin-right: 8px;
   margin-top: 22px;
   display: flex;
   justify-content: right;
@@ -66,7 +70,8 @@
   font-size: 0.9rem;
   font-weight: bold;
   user-select: none;
-  width: 100px;
+  line-height: 15px;
+  width: 90px;
   animation: moveArrow 0.8s infinite alternate-reverse;
 }
 .arrowup-img {
@@ -112,14 +117,33 @@
   }
   5%{
     opacity: 1;
-    top: 25px;
+    top: 20px;
   }
   80%{
     opacity: 1;
-    top: 25px;
+    top: 20px;
   }
   100%{
     opacity: 0;
     top: 0px;
+  }
+}
+.footer{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 5px 0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  user-select: none;
+  z-index: 1;
+}
+@media screen and (max-width: 425px) {
+  .footer{
+    font-size: 12px;
   }
 }

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../css/Task.css";
 import "../css/scrollbar.css";
 import editIcon from "../assets/icons/edit.svg";
-import Date from "../components/Date";
 import { GlobalContext } from "../App";
 import { useContext } from "react";
 
@@ -23,7 +22,6 @@ function Task({ id }) {
 
   return (
     <div>
-      <Date id="task-date" taskDate={currentTask ? currentTask.date : ''} />
       <div 
         className="task-container"
         onMouseEnter={()=> setIsTaskHovered(true)}

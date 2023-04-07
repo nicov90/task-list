@@ -13,6 +13,7 @@ import Task from "./components/Task";
 import PopUp from "./components/PopUp";
 import useLocalStorage from "./js/useLocalStorage";
 import Alert from "react-bootstrap/Alert";
+import DateUI from "./components/DateUI";
 
 export const GlobalContext = createContext();
 
@@ -29,7 +30,7 @@ function App() {
   const [showAddPopUp, setShowAddPopUp] = useState(false);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [popUpIsClosing, setPopUpIsClosing] = useState(false);
-  
+
   //* Error states
   const [errorStatus, setErrorStatus] = useState(false);
   const errorStatusState = {
@@ -41,8 +42,8 @@ function App() {
   const [successStatus, setSuccessStatus] = useState(false);
   const successStatusState = {
     successStatus,
-    setSuccessStatus
-  }
+    setSuccessStatus,
+  };
 
   //* Task ID for the Edit Pop-up
   const [selectedTaskId, setSelectedTaskId] = useState(null);
@@ -58,6 +59,7 @@ function App() {
     setTasksArray,
   };
 
+  //* For pop-up rendering
   const popUpList = {
     popUpOptions: {
       ADD: "ADD",
@@ -81,10 +83,15 @@ function App() {
       setPopUpIsClosing,
     },
   };
+
+  //* Filter tasks
   const filterTasks = () => {
     tasksArray.sort((a, b) => (a.date > b.date ? 1 : -1));
   };
   filterTasks();
+
+  //* Extracts the unique dates from the tasksArray to render
+  const uniqueDates = [...new Set(tasksArray.map((task) => task.date))];
 
   return (
     <div className="App">
@@ -96,7 +103,7 @@ function App() {
           selectedTaskIdState,
           errorStatusState,
           successStatusState,
-          setErrorMessage
+          setErrorMessage,
         }}
       >
         <MainUI>
@@ -116,10 +123,19 @@ function App() {
                 <p className="no-task-msg">Let's add a new task!</p>
               </div>
             )}
-            {tasksArray.map((task) => (
-              <Task key={task.id} id={task.id}></Task>
+            {uniqueDates.map((date) => (
+              <React.Fragment key={date}>
+                <DateUI id="task-date" taskDate={date} key={date} />
+                {tasksArray.map((task) => {
+                  if (task.date === date) {
+                    return <Task key={task.id} id={task.id}></Task>;
+                  }
+                  return null;
+                })}
+              </React.Fragment>
             ))}
           </AllTasks>
+          <footer className="footer">Nicolás Valdez @2023</footer>
         </MainUI>
         {showAddPopUp && (
           <>
@@ -135,7 +151,9 @@ function App() {
         )}
         {errorStatus && (
           <Alert className="alert error" key="danger" variant="danger">
-            <p className="error-msg">Error: <strong>{errorMessage}</strong></p>
+            <p className="error-msg">
+              Error: <strong>{errorMessage}</strong>
+            </p>
           </Alert>
         )}
         {successStatus && (

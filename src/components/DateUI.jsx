@@ -4,7 +4,7 @@ import moment from 'moment';
 import '../css/Date.css';
 import { GlobalContext } from '../App';
 
-function Date({ id, taskDate }) {
+function DateUI({ id, taskDate }) {
     const { currentDate } = useContext(GlobalContext);
     const [date, setDate] = useState("");
     useEffect(()=>{
@@ -45,4 +45,4 @@ function Date({ id, taskDate }) {
         <p className='date' id={ id }>{date}</p>
     )
 }
-export default Date;
+export default DateUI;

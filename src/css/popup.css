@@ -1,5 +1,4 @@
 .overlay{
-  /*visibility: hidden;*/
   position: fixed;
   transform: translate(-50%,-30px);
   top: 0;
@@ -17,13 +16,12 @@
   left: 50%;
   transform: translate(-50%, -62.5%);
   z-index: 2;
-  width: 100%;
+  width: 90%;
 
   border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(6px);
   animation: popup-open 0.5s forwards;
-  animation-fill-mode: forwards;
 }
 .popup-container{
   display: flex;
@@ -64,12 +62,6 @@
     opacity: 0;
   }
 }
-/*#edit-popup {
-  display: none;
-}
-#add-popup{
-  display: none;
-}*/
 .popup-title-container {
   display: flex;
   justify-content: center;
@@ -135,7 +127,8 @@
   outline: none;
 }
 .popup-save-container:hover{
-  background-color: rgba(255, 255, 255, 0.74);
+  background-color: rgb(247, 255, 247);
+  color: rgb(0, 27, 0);
 }
 .popup-save-container > p{
   margin-right: 3px;

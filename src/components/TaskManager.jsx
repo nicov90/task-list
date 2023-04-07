@@ -4,7 +4,7 @@ import MenuIcon from '../assets/icons/menu.svg';
 const TaskManager = ( { children }) => {
   return (
     <div className="taskmanager-container">
-      <img src={MenuIcon} alt="Menu"></img>
+      <img src={MenuIcon} alt="Menu" onContextMenu={event => event.preventDefault()}></img>
       <div>
         { children }
       </div>
