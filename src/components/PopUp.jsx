@@ -156,13 +156,15 @@ function PopUp({ popUpType }) {
             <div style={{ width: "40px" }}></div>
           </label>
         </div>
-        <button className="popup-save-container">
+        <button 
+          className="popup-save-container"
+          onClick={isEditSection ? taskActions.edit : taskActions.save}
+        >
           <p>Done</p>
           <img
             className="popup-save"
             src={SaveBtn}
             alt=""
-            onClick={isEditSection ? taskActions.edit : taskActions.save}
           ></img>
         </button>
       </div>
