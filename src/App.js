@@ -94,7 +94,12 @@ function App() {
 
   //* Filter tasks by recent dates
   const filterTasks = () => {
-    tasksArray.sort((a, b) => (a.date > b.date ? 1 : -1));
+    tasksArray.sort((a, b) => {
+      if (a.date === b.date) {
+        return a.text.localeCompare(b.text);
+      }
+      return a.date > b.date ? 1 : -1;
+    });
   };
   filterTasks();
 

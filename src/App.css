@@ -23,7 +23,6 @@
   padding: 50px 40px 25px 38px;
 }
 .title {
-  user-select: none;
   font-weight: 700;
 }
 .taskmanager-container,
@@ -51,7 +50,6 @@
 }
 .taskmanager-container > p {
   font-weight: 600;
-  user-select: none;
 }
 .taskmanager-container > div {
   display: flex;
@@ -71,7 +69,6 @@
   font-family: Helvetica, sans-serif;
   font-size: 0.9rem;
   font-weight: bold;
-  user-select: none;
   line-height: 15px;
   width: 90px;
   animation: moveArrow 0.8s infinite alternate-reverse;
@@ -192,7 +189,6 @@
   text-align: center;
   font-size: 14px;
   font-weight: 600;
-  user-select: none;
   z-index: 1;
 }
 @media screen and (max-width: 768px) {

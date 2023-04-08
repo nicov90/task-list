@@ -45,7 +45,6 @@ function PopUp({ popUpType }) {
   //* Task actions
   const taskActions = {
     save: () => {
-      console.log("Save ejecutado");
       if (popUpTaskText !== "" && popUpDate !== null) {
         if (isDateValid()) {
           const updatedTasksArray = [...tasksArray];
@@ -70,7 +69,6 @@ function PopUp({ popUpType }) {
       }
     },
     edit: () => {
-      console.log("Edit ejecutado");
       if (popUpTaskText !== "" && popUpDate !== null) {
         if (isDateValid()) {
           let updatedTasksArray = [...tasksArray];
