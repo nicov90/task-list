@@ -29,6 +29,7 @@ function DateUI({ id, taskDate }) {
           const dateOptions = {
             month: "short",
             day: "2-digit",
+            timeZone: "UTC"
           };
           const formattedDate = new Date(taskDate).toLocaleDateString(
             "en-US",

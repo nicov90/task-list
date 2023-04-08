@@ -253,6 +253,3 @@ function App() {
 }
 
 export default App;
-
-/* Filtra por fechas mas recientes
-tasksArray.sort((a,b)=> (a.date > b.date ? 1 : -1));*/

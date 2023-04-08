@@ -85,22 +85,3 @@ function Task({ id, selectedTasksState }) {
   );
 }
 export default Task;
-
-/*const openEditPopUp = () => {
-    const overlay = document.querySelector(".overlay");
-
-    const popUp = document.querySelector(".popup");
-
-    const currentCenterPos =
-      ((window.scrollY + window.innerHeight / 2) /
-        document.documentElement.scrollHeight) *
-      document.documentElement.scrollHeight;
-
-    //* Centrar popUp en pantalla
-    popUp.style.top = `${currentCenterPos}px`;
-    //* Visibiliza la capa oscura y setea el ancho sin contar el scrollbar
-    overlay.style.visibility = "visible";
-    overlay.style.width = `${document.body.clientWidth}px`;
-    //* Muestra la ventana de Edit
-    editPopUp.style.display = "flex";
-  };*/
