@@ -60,3 +60,8 @@
         max-height: 90px;
     }
 }
+@media screen and (max-width: 425px) {
+    .task-title{
+        max-height: 75px;
+    }
+}

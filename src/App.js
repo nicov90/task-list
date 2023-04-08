@@ -184,9 +184,14 @@ function App() {
 
           <AllTasks>
             {tasksArray.length === 0 && (
-              <div className="no-task-msg-container">
-                <p className="no-task-msg">Let's add a new task!</p>
-              </div>
+              <>
+                <div className="notask-float-container">
+                  <p className="notask-float-msg">Let's add a new task!</p>
+                </div>
+                <div className="notask-msg-container">
+                  <p>No tasks found</p>
+                </div>
+              </>
             )}
             {uniqueDates.map((date) => (
               <React.Fragment key={date}>

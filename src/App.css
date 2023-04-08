@@ -55,7 +55,7 @@
   display: flex;
   align-items: center;
 }
-.no-task-msg-container {
+.notask-float-container {
   margin-right: 8px;
   margin-top: 22px;
   display: flex;
@@ -63,7 +63,7 @@
   text-align: center;
   transform: translateX(25px);
 }
-.no-task-msg {
+.notask-float-msg {
   display: inline-block;
   color: rgb(85, 85, 85);
   font-family: Helvetica, sans-serif;
@@ -72,6 +72,23 @@
   line-height: 15px;
   width: 90px;
   animation: moveArrow 0.8s infinite alternate-reverse;
+}
+.notask-msg-container{
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transform: translateY(-10px);
+}
+.notask-msg-container > p{
+  color: transparent;
+  background: linear-gradient(
+    112.1deg, rgba(56, 44, 44, 0.35) 11.4%,
+    rgba(114, 78, 78, 0.35) 70.2%);
+  background-clip: text;
 }
 .arrowup-img {
   position: absolute;
@@ -192,6 +209,9 @@
   z-index: 1;
 }
 @media screen and (max-width: 768px) {
+  .notask-msg-container{
+    font-size: 1.3rem;
+  }
   .delete-options{
     padding: 10px 50px;
   }
@@ -199,6 +219,10 @@
 @media screen and (max-width: 425px) {
   .title-container {
     padding-left: 32px;
+  }
+  .notask-msg-container{
+    font-size: 1.2rem;
+    transform: translateY(-14px);
   }
   .delete-options-container{
     gap: 15px;
@@ -212,6 +236,9 @@
   }
 }
 @media screen and (max-width: 320px){
+  .notask-msg-container{
+    font-size: 1rem;
+  }
   .delete-options{
     padding: 10px 26px;
   }
