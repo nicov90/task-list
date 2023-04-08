@@ -38,6 +38,13 @@ function App() {
     setRemoveStatus,
   };
 
+  //* Search text state
+  const [searchText, setSearchText] = useState('');
+  const searchTextState = {
+    searchText,
+    setSearchText
+  }
+
   //* Error states
   const [errorStatus, setErrorStatus] = useState(false);
   const errorStatusState = {
@@ -169,6 +176,7 @@ function App() {
           successStatusState,
           showErrorMsg,
           showSuccessMsg,
+          searchTextState
         }}
       >
         <MainUI>
@@ -193,7 +201,7 @@ function App() {
                 </div>
               </>
             )}
-            {uniqueDates.map((date) => (
+            {searchText === '' && uniqueDates.map((date) => (
               <React.Fragment key={date}>
                 <DateUI id="task-date" taskDate={date} key={date} />
                 {tasksArray.map((task) => {
@@ -210,6 +218,40 @@ function App() {
                 })}
               </React.Fragment>
             ))}
+            {searchText !== '' && uniqueDates.map((date) => {
+              let searchTextLower = searchText.toLowerCase();
+              let dateAlreadyRendered = false;
+
+              return (
+              <React.Fragment key={date}>
+                {tasksArray.map((task)=> {
+                  let taskText = task.text.toLowerCase();
+
+                  if(taskText.includes(searchTextLower) && task.date === date && !dateAlreadyRendered){
+                    dateAlreadyRendered = true;
+                    
+                    return (
+                      <DateUI id="task-date" taskDate={date} key={date} />
+                    );
+                  }
+                  return null;
+                })}
+                {tasksArray.map((task) => {
+                  let taskText = task.text.toLowerCase();
+
+                  if (taskText.includes(searchTextLower) && task.date === date) {
+                    return (
+                      <Task
+                        key={task.id}
+                        id={task.id}
+                        selectedTasksState={selectedTasksState}
+                      ></Task>
+                    );
+                  }
+                  return null;
+                })}
+              </React.Fragment>
+            )})}
           </AllTasks>
           {removeStatus && (
             <div
